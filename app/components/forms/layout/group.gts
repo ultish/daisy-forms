@@ -25,7 +25,6 @@ export default class FormGroupComponent extends Component<FormGroupComponentSign
     <div class="prose">
       <h3 class="">
         {{yield to="header"}}
-        {{@submitted}}
       </h3>
       <p class="text-sm mt-1 text-base-content/50">
         {{yield to="description"}}
