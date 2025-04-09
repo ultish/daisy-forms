@@ -4,6 +4,11 @@ import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
+// if i don't have this, tailwind doesn't work
+import './jxhui.css';
+
+import 'cally';
+
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
   podModulePrefix = config.podModulePrefix;
