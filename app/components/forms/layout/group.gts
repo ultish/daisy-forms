@@ -4,10 +4,9 @@ import { hash } from '@ember/helper';
 // import { hash } from '@ember/helper';
 
 export interface FormGroupComponentSignature {
-  // Args: {
-  //   submitted?: boolean;
-  // };
-  Args: null;
+  Args: {
+    submitted?: boolean;
+  };
   Blocks: {
     header: [];
     description: [];

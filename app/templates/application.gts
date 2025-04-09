@@ -11,10 +11,8 @@ export default Route(
     {{pageTitle "Ember63"}}
     <header class="bg-amber-400 p-6">
       <label class="swap swap-rotate">
-        <!-- this hidden checkbox controls the state -->
         <input type="checkbox" class="theme-controller" value="dark" />
 
-        <!-- sun icon -->
         <svg
           class="swap-off h-10 w-10 fill-current"
           xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +23,6 @@ export default Route(
           />
         </svg>
 
-        <!-- moon icon -->
         <svg
           class="swap-on h-10 w-10 fill-current"
           xmlns="http://www.w3.org/2000/svg"
