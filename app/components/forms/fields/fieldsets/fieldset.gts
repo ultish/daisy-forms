@@ -21,6 +21,7 @@ interface Signature {
   Args: {
     title: string;
     colSpan?: number;
+    submitted?: boolean;
   };
   Blocks: {
     field: [
@@ -35,16 +36,8 @@ interface Signature {
   };
 }
 export default class FormFieldSetComponent extends Component<Signature> {
-  get test() {
-    return '';
-  }
-
   get colSpan() {
     return `col-span-${this.args.colSpan ?? 4}`;
-  }
-
-  get inputComponent() {
-    return FormFieldsetInputComponent;
   }
 
   <template>
@@ -83,10 +76,12 @@ export default class FormFieldSetComponent extends Component<Signature> {
       <label class="input w-full">
         {{yield
           (hash
-            input=this.inputComponent
+            input=FormFieldsetInputComponent
             select=FormFieldsetSelectComponent
             multiSelect=FormFieldsetSelectComponent
-            calendar=FormFieldsetCalendarComponent
+            calendar=(component
+              FormFieldsetCalendarComponent submitted=@submitted
+            )
           )
           to="field"
         }}

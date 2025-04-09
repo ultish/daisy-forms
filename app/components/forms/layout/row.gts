@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 
 interface Signature {
-  Args: {};
   Blocks: {
     default: [];
   };
@@ -11,5 +10,7 @@ export default class FormRowComponent extends Component<Signature> {
     return '';
   }
 
-  <template>{{yield}}</template>
+  <template>
+    <div class="pb-8">{{yield}}</div>
+  </template>
 }

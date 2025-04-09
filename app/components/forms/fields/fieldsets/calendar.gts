@@ -11,6 +11,7 @@ export interface FormFieldsetCalendarComponentSignature {
     type?: string;
     required?: boolean;
     placeholder?: string;
+    submitted?: boolean;
   };
 }
 export default class FormFieldsetCalendarComponent extends Component<FormFieldsetCalendarComponentSignature> {
@@ -39,7 +40,6 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
   }
 
   @tracked dateValue = ''; // Tracks the selected date
-  @tracked isValid = true;
   @tracked blurred = false;
 
   @action
@@ -48,14 +48,12 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
     if (target) {
       this.blurred = true;
       this.dateValue = target.value;
-      this.syncAndValidate();
     }
   }
   @action
   clearDate() {
     this.blurred = true;
     this.dateValue = ''; // Clear the date
-    this.syncAndValidate();
   }
 
   inputElement: HTMLInputElement | undefined;
@@ -66,31 +64,6 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
     }
   });
 
-  @action
-  syncAndValidate() {
-    if (this.inputElement) {
-      this.inputElement.value = this.dateValue; // Sync value
-      // Simulate user interaction
-      this.inputElement.focus();
-      this.inputElement.dispatchEvent(new Event('input', { bubbles: true }));
-      this.inputElement.blur();
-      // Force form validation if within a form
-      // const form = this.inputElement.closest('form');
-      // if (form) {
-      //   form.reportValidity(); // Trigger form-wide validation
-      // }
-      this.isValid = this.inputElement.checkValidity();
-      console.log(
-        'Input validity:',
-        this.isValid,
-        'Value:',
-        this.dateValue,
-        'User-invalid:',
-        this.inputElement.matches(':user-invalid'),
-      );
-    }
-  }
-
   get value() {
     if (this.dateValue) {
       return this.dateValue;
@@ -99,8 +72,20 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
     }
   }
 
+  get checkValidation() {
+    return this.blurred || this.args.submitted;
+  }
+
+  get isValid() {
+    if (this.checkValidation && this.required) {
+      return this.dateValue !== '';
+    } else {
+      return true;
+    }
+  }
+
   get inputCustomValid() {
-    if (this.blurred && this.required) {
+    if (this.checkValidation && this.required) {
       return this.isValid ? 'custom-valid' : 'custom-invalid';
     } else {
       return '';
@@ -111,7 +96,7 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
     <button
       type="button"
       popovertarget={{this.uniquePopoverId}}
-      class="w-full h-full text-left"
+      class="w-full h-full text-left validator {{this.inputCustomValid}}"
       style={{this.anchorName}}
     >
       {{this.value}}
@@ -167,14 +152,14 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
       </calendar-date>
     </div>
 
-    <input
+    {{!-- <input
       type="text"
       class="validator w-full hidden {{this.inputCustomValid}}"
       required
       placeholder="Select a date"
       value={{this.dateValue}}
       {{this.doValidate}}
-    />
+    /> --}}
     {{#if this.required}}
       <span class="label">Required</span>
     {{/if}}

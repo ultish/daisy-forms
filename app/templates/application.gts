@@ -4,6 +4,7 @@ import { pageTitle } from 'ember-page-title';
 import FormComponent from 'ember-6-3/components/forms/layout/form';
 import FormFieldSetComponent from 'ember-6-3/components/forms/fields/fieldsets/fieldset.gts';
 import FormFieldsetInputComponent from 'ember-6-3/components/forms/fields/fieldsets/input';
+import { on } from '@ember/modifier';
 
 export default Route(
   <template>
@@ -42,7 +43,7 @@ export default Route(
 
       <h1>Form Component</h1>
       <FormComponent>
-        <:default as |f|>
+        <:form as |f|>
           <f.group>
             <:header>
               Group 1
@@ -50,33 +51,33 @@ export default Route(
             <:description>
               A description of the group
             </:description>
-            <:rows as |g|>
-              <g.row>
-                <FormFieldSetComponent @title="Username">
-                  <:field as |x|>
-                    <x.input @required={{true}} @placeholder="Who are you?" />
-                  </:field>
-                  <:validatorHint>
-                    Required Field
-                  </:validatorHint>
-                </FormFieldSetComponent>
-                <FormFieldSetComponent @title="Password">
-                  <:field>
-                    <FormFieldsetInputComponent
-                      @type="password"
-                      @required={{true}}
-                      minlength="8"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    />
-                  </:field>
-                  <:validatorHint>
-                    Must be more than 8 characters, including
-                    <br />At least one number
-                    <br />At least one lowercase letter
-                    <br />At least one uppercase letter
-                  </:validatorHint>
-                </FormFieldSetComponent>
-              </g.row>
+            <:rows>
+              {{! <g.row> }}
+              <FormFieldSetComponent @title="Username">
+                <:field as |x|>
+                  <x.input @required={{true}} @placeholder="Who are you?" />
+                </:field>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </FormFieldSetComponent>
+              <FormFieldSetComponent @title="Password">
+                <:field>
+                  <FormFieldsetInputComponent
+                    @type="password"
+                    @required={{true}}
+                    minlength="8"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                  />
+                </:field>
+                <:validatorHint>
+                  Must be more than 8 characters, including
+                  <br />At least one number
+                  <br />At least one lowercase letter
+                  <br />At least one uppercase letter
+                </:validatorHint>
+              </FormFieldSetComponent>
+              {{! </g.row> }}
             </:rows>
           </f.group>
 
@@ -88,33 +89,41 @@ export default Route(
               A description of the group
             </:description>
             <:rows as |g|>
-              <g.row>
-                <FormFieldSetComponent @title="Start Date" @colSpan={{3}}>
-                  <:field as |x|>
-                    <x.calendar @required={{true}} />
-                  </:field>
-                  <:validatorHint>
-                    Required Field
-                  </:validatorHint>
-                </FormFieldSetComponent>
+              {{! <g.row> }}
+              <FormFieldSetComponent
+                @title="Start Date"
+                @colSpan={{3}}
+                @submitted={{g.submitted}}
+              >
+                <:field as |x|>
+                  <x.calendar @required={{true}} />
+                </:field>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </FormFieldSetComponent>
 
-                <FormFieldSetComponent @title="End Date" @colSpan={{3}}>
-                  <:field as |x|>
-                    <x.calendar @required={{false}} />
-                  </:field>
-                  <:validatorHint>
-                    Required Field
-                  </:validatorHint>
-                </FormFieldSetComponent>
-              </g.row>
+              <FormFieldSetComponent @title="End Date" @colSpan={{3}}>
+                <:field as |x|>
+                  <x.calendar @required={{false}} />
+                </:field>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </FormFieldSetComponent>
+              {{! </g.row> }}
             </:rows>
           </f.group>
-        </:default>
-        <:buttonBar>
+        </:form>
+        <:buttonBar as |bb|>
           <button type="button" class="btn btn-sm btn-ghost">
             Cancel
           </button>
-          <button type="submit" class="btn btn-sm btn-primary">
+          <button
+            type="submit"
+            class="btn btn-sm btn-primary"
+            {{on "click" bb.handleSubmit}}
+          >
             Save
           </button>
         </:buttonBar>
