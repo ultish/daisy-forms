@@ -1,12 +1,35 @@
 import Route from 'ember-route-template';
 import { pageTitle } from 'ember-page-title';
+import Component from '@glimmer/component';
 
 import FormComponent from 'ember-6-3/components/forms/layout/form';
 import FormFieldSetComponent from 'ember-6-3/components/forms/fields/fieldsets/fieldset.gts';
 import FormFieldsetInputComponent from 'ember-6-3/components/forms/fields/fieldsets/input';
 import { on } from '@ember/modifier';
+import InputField from 'ember-6-3/components/forms/fields/input-field';
+import SelectField from 'ember-6-3/components/forms/fields/select-field';
 
-export default Route(
+class ApplicationRouteTemplate extends Component {
+  get choices() {
+    return [
+      {
+        selected: false,
+        choice: {
+          id: '1',
+          name: 'Charge Code 1',
+          group: null,
+        },
+      },
+      {
+        selected: false,
+        choice: {
+          id: '2',
+          name: 'Charge Code 2',
+          group: null,
+        },
+      },
+    ];
+  }
   <template>
     {{pageTitle "Ember63"}}
     <header class="bg-amber-400 p-6">
@@ -48,9 +71,44 @@ export default Route(
             <:description>
               A description of the group
             </:description>
-            <:rows>
+            <:rows as |row|>
+              <InputField
+                @title="First Name"
+                @submitted={{row.submitted}}
+                @required={{true}}
+                class="col-span-4"
+              >
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </InputField>
+
+              <SelectField
+                @title="Options"
+                @submitted={{row.submitted}}
+                @choices={{this.choices}}
+                @required={{true}}
+                class="col-span-4"
+              >
+                <:option as |item|>
+                  <option
+                    selected={{if item.selected "selected"}}
+                    value={{item.choice.id}}
+                  >
+                    {{item.choice.name}}
+                  </option>
+                </:option>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </SelectField>
+
               {{! <g.row> }}
-              <FormFieldSetComponent @title="Username">
+              <FormFieldSetComponent
+                @title="Username"
+                @submitted={{row.submitted}}
+                class="col-span-4"
+              >
                 <:field as |x|>
                   <x.input @required={{true}} @placeholder="Who are you?" />
                 </:field>
@@ -58,13 +116,18 @@ export default Route(
                   Required Field
                 </:validatorHint>
               </FormFieldSetComponent>
-              <FormFieldSetComponent @title="Password">
+              <FormFieldSetComponent
+                @title="Password"
+                @submitted={{row.submitted}}
+                class="col-span-4"
+              >
                 <:field>
                   <FormFieldsetInputComponent
                     @type="password"
                     @required={{true}}
                     minlength="8"
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    class="col-span-4"
                   />
                 </:field>
                 <:validatorHint>
@@ -85,12 +148,12 @@ export default Route(
             <:description>
               A description of the group
             </:description>
-            <:rows as |g|>
+            <:rows as |row|>
               {{! <g.row> }}
               <FormFieldSetComponent
                 @title="Start Date"
-                @colSpan={{3}}
-                @submitted={{g.submitted}}
+                @submitted={{row.submitted}}
+                class="col-span-3"
               >
                 <:field as |x|>
                   <x.calendar @required={{true}} />
@@ -100,9 +163,61 @@ export default Route(
                 </:validatorHint>
               </FormFieldSetComponent>
 
-              <FormFieldSetComponent @title="End Date" @colSpan={{3}}>
+              <FormFieldSetComponent
+                @title="End Date"
+                @submitted={{row.submitted}}
+                class="col-span-3"
+              >
                 <:field as |x|>
                   <x.calendar @required={{false}} />
+                </:field>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </FormFieldSetComponent>
+
+              <FormFieldSetComponent
+                @title="Options"
+                @submitted={{row.submitted}}
+                class="col-span-4"
+              >
+                <:field as |x|>
+                  <x.select
+                    @choices={{this.choices}}
+                    @required={{true}}
+                    as |item|
+                  >
+                    <option
+                      selected={{if item.selected "selected"}}
+                      value={{item.choice.id}}
+                    >
+                      {{item.choice.name}}
+                    </option>
+                  </x.select>
+                </:field>
+                <:validatorHint>
+                  Required Field
+                </:validatorHint>
+              </FormFieldSetComponent>
+
+              <FormFieldSetComponent
+                @title="Options"
+                @submitted={{row.submitted}}
+                class="col-span-4"
+              >
+                <:field as |x|>
+                  <x.select
+                    @choices={{this.choices}}
+                    @required={{false}}
+                    as |item|
+                  >
+                    <option
+                      selected={{if item.selected "selected"}}
+                      value={{item.choice.id}}
+                    >
+                      {{item.choice.name}}
+                    </option>
+                  </x.select>
                 </:field>
                 <:validatorHint>
                   Required Field
@@ -126,90 +241,8 @@ export default Route(
         </:buttonBar>
       </FormComponent>
 
-      <h1>Form</h1>
-      <form>
-        <div
-          class="border-b-[1px] pb-8 mb-8 border-neutral/10 grid grid-cols-3 gap-4"
-        >
-          <div class="prose">
-            <h3 class="">
-              My Header
-            </h3>
-            <p class="text-sm mt-1 text-base-content/50">
-              A Description of the section
-            </p>
-          </div>
-
-          <style>
-            fieldset:has(.validator:user-invalid) label.input,
-            fieldset:has(.validator:user-invalid) .validator-hint {
-              color: var(--color-error);
-              --input-color: var(--color-error);
-            }
-          </style>
-          <div class="col-span-2 grid grid-cols-6 gap-4">
-            <label class="form-control col-span-6">
-              <fieldset class="fieldset">
-                <legend class="fieldset-legend">Page title</legend>
-                <label class="input w-full">
-                  <input
-                    type="text"
-                    class="validator"
-                    required
-                    placeholder="My awesome page"
-                  />
-                  <span class="label">Required</span>
-                </label>
-                <div class="validator-hint fieldset-label">
-                  Required Field
-                </div>
-              </fieldset>
-
-              <fieldset class="fieldset">
-                <legend class="fieldset-legend">Page title</legend>
-                <label class="input w-full">
-                  <input
-                    type="text"
-                    class="validator"
-                    required
-                    placeholder="My awesome page"
-                  />
-                  <span class="label">Required</span>
-                </label>
-
-                <div class="validator-hint fieldset-label">
-                  Required Field
-                </div>
-              </fieldset>
-
-            </label>
-            <fieldset class="fieldset form-control col-span-5">
-              <legend class="fieldset-legend">Email</legend>
-              <input
-                class="input validator w-full"
-                type="email"
-                required
-                placeholder="mail@site.com"
-              />
-              <div class="validator-hint fieldset-label">
-                Enter valid email address
-              </div>
-
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="mt-6 flex items-center justify-end gap-2">
-          <button type="button" class="btn btn-sm btn-ghost">
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-sm btn-primary">
-            Save
-          </button>
-        </div>
-      </form>
-
       {{outlet}}
     </main>
-  </template>,
-);
+  </template>
+}
+export default Route(ApplicationRouteTemplate);

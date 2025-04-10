@@ -76,17 +76,17 @@ export default class FormFieldsetCalendarComponent extends Component<FormFieldse
     return this.blurred || this.args.submitted;
   }
 
-  get isValid() {
-    if (this.checkValidation && this.required) {
-      return this.dateValue !== '';
-    } else {
-      return true;
-    }
-  }
+  // get isValid() {
+  //   if (this.checkValidation && this.required) {
+  //     return this.dateValue !== '';
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   get inputCustomValid() {
     if (this.checkValidation && this.required) {
-      return this.isValid ? 'custom-valid' : 'custom-invalid';
+      return this.dateValue !== '' ? 'custom-valid' : 'custom-invalid';
     } else {
       return '';
     }

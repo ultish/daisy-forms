@@ -34,9 +34,9 @@ export default class FormComponent extends Component<FormSignature> {
   }
 
   <template>
-    <form {{on "submit" this.handleSubmit}} class="hellop">
+    <form {{on "submit" this.handleSubmit}}>
       <div
-        class="border-b-[1px] pb-8 mb-8 border-base-content/ grid grid-cols-3 gap-4"
+        class="border-b-[1px] pb-8 mb-8 border-base-content/10 grid grid-cols-3 gap-4"
         ...attributes
       >
         {{yield

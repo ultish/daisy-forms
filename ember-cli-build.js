@@ -7,5 +7,7 @@ module.exports = async function (defaults) {
   const { buildOnce } = await import('@embroider/vite');
   let app = new EmberApp(defaults, {});
 
+  // app.import('node_modules/ember-choices/dist/components/too-many-choices.css');
+
   return compatBuild(app, buildOnce);
 };

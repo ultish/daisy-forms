@@ -52,6 +52,7 @@
     "@embroider/macros": "^1.16.12",
     "@embroider/vite": "^1.0.0-alpha.0",
     "@eslint/js": "^9.23.0",
+    "@floating-ui/dom": "^1.6.13",
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@glint/core": "1.4.1-unstable.5564fc2",
@@ -67,6 +68,7 @@
     "@warp-drive/core-types": "~0.0.2",
     "babel-plugin-ember-template-compilation": "^2.4.1",
     "cally": "^0.8.0",
+    "choices.js": "^11.1.0",
     "concurrently": "^9.1.2",
     "daisyui": "^5.0.17",
     "decorator-transforms": "^2.3.0",
@@ -76,6 +78,7 @@
     "ember-cli-deprecation-workflow": "^3.3.0",
     "ember-cli-htmlbars": "^6.3.0",
     "ember-data": "~5.3.12",
+    "ember-lifeline": "^7.0.0",
     "ember-load-initializers": "^3.0.1",
     "ember-modifier": "^4.2.0",
     "ember-page-title": "^9.0.1",
@@ -116,5 +119,8 @@
   "exports": {
     "./tests/*": "./tests/*",
     "./*": "./app/*"
+  },
+  "dependencies": {
+    "ember-choices": "file:../ember-choices/ember-choices/ember-choices-0.0.26.tgz"
   }
 }

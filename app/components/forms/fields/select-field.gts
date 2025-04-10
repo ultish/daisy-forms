@@ -15,10 +15,10 @@ export interface Choice<T> {
   selected: boolean;
 }
 
-export interface FormFieldsetSelectComponentSignature<
-  T extends ChoiceAttributes,
-> {
+export interface SelectFieldSignature<T extends ChoiceAttributes> {
   Args: {
+    title: string;
+    submitted?: boolean;
     choices: Choice<T>[];
     items?: InputChoice[];
     onAdd?: (detail: EventChoice) => void;
@@ -27,15 +27,15 @@ export interface FormFieldsetSelectComponentSignature<
     type?: string;
     required?: boolean;
     placeholder?: string;
-    submitted?: boolean;
   };
   Blocks: {
-    default: [Choice<T>];
+    option: [Choice<T>];
+    validatorHint: [];
   };
 }
-export default class FormFieldsetSelectComponent<
-  T extends ChoiceAttributes,
-> extends Component<FormFieldsetSelectComponentSignature<T>> {
+export default class SelectField<T extends ChoiceAttributes> extends Component<
+  SelectFieldSignature<T>
+> {
   CHOICES_CLASS_NAMES = {
     containerOuter: ['choices', 'too-many-choices'],
     containerInner: ['choices__inner', 'custom_choices__inner'], // custom class
@@ -228,24 +228,32 @@ export default class FormFieldsetSelectComponent<
   }
 
   <template>
-    <select
-      {{this.makeChoices}}
-      data-placeholder={{@placeholder}}
-      aria-label="select choices"
-    >
-      {{#each this.choices as |group|}}
-        <optgroup label="{{group.name}}">
-          {{#each group.choices as |c|}}
-            {{yield c}}
+    <fieldset class="fieldset form-control" ...attributes>
+      <legend class="fieldset-legend">{{@title}}</legend>
+      <label class="input w-full">
+        <select
+          {{this.makeChoices}}
+          data-placeholder={{@placeholder}}
+          aria-label="select choices"
+        >
+          {{#each this.choices as |group|}}
+            <optgroup label="{{group.name}}">
+              {{#each group.choices as |c|}}
+                {{yield c to="option"}}
+              {{/each}}
+            </optgroup>
           {{/each}}
-        </optgroup>
-      {{/each}}
-    </select>
+        </select>
 
-    <input class="hidden validator {{this.inputCustomValid}}" />
+        <div class="hidden validator {{this.inputCustomValid}}" />
 
-    {{#if this.required}}
-      <span class="label">Required</span>
-    {{/if}}
+        {{#if this.required}}
+          <span class="label">Required</span>
+        {{/if}}
+      </label>
+      <div class="validator-hint fieldset-label hidden">
+        {{yield to="validatorHint"}}
+      </div>
+    </fieldset>
   </template>
 }

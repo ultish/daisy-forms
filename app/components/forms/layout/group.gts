@@ -12,7 +12,7 @@ export interface FormGroupComponentSignature {
     description: [];
     rows: [
       {
-        submitted: boolean;
+        submitted: boolean | undefined;
       },
     ];
   };

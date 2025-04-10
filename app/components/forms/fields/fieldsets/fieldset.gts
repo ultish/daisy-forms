@@ -9,6 +9,7 @@ import FormFieldsetInputComponent, {
 } from './input';
 
 import FormFieldsetSelectComponent, {
+  type ChoiceAttributes,
   type FormFieldsetSelectComponentSignature,
 } from './select';
 
@@ -17,31 +18,31 @@ import FormFieldsetCalendarComponent, {
 } from './calendar';
 
 import type { ComponentLike } from '@glint/template';
-interface Signature {
+// import type { ChoicesGroup } from 'ember-choices';
+
+interface Signature<T extends ChoiceAttributes> {
   Args: {
     title: string;
-    colSpan?: number;
     submitted?: boolean;
   };
   Blocks: {
     field: [
       {
         input: ComponentLike<FormFieldsetInputComponentSignature>;
-        select: ComponentLike<FormFieldsetSelectComponentSignature>;
-        multiSelect: ComponentLike<FormFieldsetSelectComponentSignature>;
+        select: ComponentLike<FormFieldsetSelectComponentSignature<T>>;
+        multiSelect: ComponentLike<FormFieldsetSelectComponentSignature<T>>;
         calendar: ComponentLike<FormFieldsetCalendarComponentSignature>;
       },
     ];
     validatorHint: [];
   };
 }
-export default class FormFieldSetComponent extends Component<Signature> {
-  get colSpan() {
-    return `col-span-${this.args.colSpan ?? 4}`;
-  }
-
+export default class FormFieldSetComponent<
+  T extends ChoiceAttributes,
+> extends Component<Signature<T>> {
   <template>
-    <style>
+    <style
+    >
       fieldset .validator-hint {
         visibility: hidden;
       }
@@ -69,16 +70,21 @@ export default class FormFieldSetComponent extends Component<Signature> {
         display: block;
         color: var(--color-error);
       }
+
+      label.input:has(.too-many-choices.is-open) {
+        z-index: 5;
+        {{! label.input has isolation:isolate when focused, so it resets stacking, causing z-index to be localized. this makes the dropdown sit under another fieldsets label.input }}
+      }
     </style>
 
-    <fieldset class="fieldset form-control {{this.colSpan}}" ...attributes>
+    <fieldset class="fieldset form-control" ...attributes>
       <legend class="fieldset-legend">{{@title}}</legend>
       <label class="input w-full">
         {{yield
           (hash
             input=FormFieldsetInputComponent
-            select=FormFieldsetSelectComponent
-            multiSelect=FormFieldsetSelectComponent
+            select=(component FormFieldsetSelectComponent submitted=@submitted)
+            multiSelect=(component FormFieldsetSelectComponent)
             calendar=(component
               FormFieldsetCalendarComponent submitted=@submitted
             )

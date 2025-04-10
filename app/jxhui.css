@@ -1,4 +1,85 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark;
+  themes:
+    light --default,
+    dark;
+}
+
+fieldset .validator-hint {
+  visibility: hidden;
+}
+
+fieldset:has(.validator:user-invalid) label.input,
+fieldset:has(.validator:user-invalid) .validator-hint,
+fieldset:has(.validator.custom-invalid) label.input,
+fieldset:has(.validator.custom-invalid) .validator-hint {
+  color: var(--color-error);
+
+  --input-color: var(--color-error);
+}
+
+fieldset:has(.validator:user-valid) label.input,
+fieldset:has(.validator.custom-valid) label.input {
+  &,
+  &:focus,
+  &:checked,
+  &[aria-checked="true"],
+  &:focus-within {
+    --input-color: var(--color-success);
+  }
+}
+
+fieldset:has(.validator:user-invalid) .validator-hint,
+fieldset:has(.validator.custom-invalid) .validator-hint {
+  visibility: visible;
+  display: block;
+  color: var(--color-error);
+}
+
+label.input:has(.too-many-choices.is-open) {
+  z-index: 5;
+}
+
+@import "choices.js/public/assets/styles/choices.min.css";
+
+.choices__list[aria-expanded].custom_choices__list.is-active {
+  z-index: 9999;
+}
+
+.too-many-choices.choices {
+  @apply w-full;
+  margin-bottom: 0;
+}
+.choices__inner {
+  vertical-align: middle;
+  min-height: initial;
+  border: 0;
+}
+.choices[data-type*="select-one"] .choices__inner {
+  padding-bottom: 0;
+}
+.custom_choices__inner {
+  padding: 0;
+  border-radius: var(--rounded-btn, 0.5rem);
+  background: inherit;
+}
+.choices__input {
+  background-color: inherit;
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.custom_choices__list.choices__list--multiple .custom_item {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.input-sm
+  .choices__inner
+  .choices__list
+  .choices__item.choices__item--selectable {
+  line-height: initial;
+}
+
+.choices__item.choices__item--choice.choices__item--selectable {
+  padding-left: 1rem;
 }
