@@ -123,6 +123,9 @@ importers:
       '@types/rsvp':
         specifier: ^4.0.9
         version: 4.0.9
+      '@types/tabulator-tables':
+        specifier: ^6.2.6
+        version: 6.2.6
       '@warp-drive/core-types':
         specifier: ~0.0.2
         version: 0.0.2(@glint/template@1.4.1-unstable.5564fc2)
@@ -228,6 +231,9 @@ importers:
       stylelint-config-standard:
         specifier: ^36.0.1
         version: 36.0.1(stylelint@16.18.0(typescript@5.8.3))
+      tabulator-tables:
+        specifier: ^6.3.1
+        version: 6.3.1
       tailwindcss:
         specifier: ^4.0.0
         version: 4.1.3
@@ -1768,6 +1774,9 @@ packages:
 
   '@types/symlink-or-copy@1.2.2':
     resolution: {integrity: sha512-MQ1AnmTLOncwEf9IVU+B2e4Hchrku5N67NkgcAHW0p3sdzPe0FNMANxEm6OJUzPniEQGkeT3OROLlCwZJLWFZA==}
+
+  '@types/tabulator-tables@6.2.6':
+    resolution: {integrity: sha512-A+2VrqDluI6hNw5dQl1Z7b8pjQfAE62+3Kj0cFfenWzj0T0ewMicPrpPINHL7ASqz9u9FTDn1Mz1Ige2tF4Wlw==}
 
   '@typescript-eslint/eslint-plugin@8.29.1':
     resolution: {integrity: sha512-ba0rr4Wfvg23vERs3eB+P3lfj2E+2g3lhWcCVukUuhtcdUx5lSIFZlGFEBHKr+3zizDa/TvZTptdNHVZWAkSBg==}
@@ -5944,6 +5953,9 @@ packages:
     resolution: {integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==}
     engines: {node: '>=10.0.0'}
 
+  tabulator-tables@6.3.1:
+    resolution: {integrity: sha512-qFW7kfadtcaISQIibKAIy0f3eeIXUVi8242Vly1iJfMD79kfEGzfczNuPBN/80hDxHzQJXYbmJ8VipI40hQtfA==}
+
   tailwindcss@4.1.3:
     resolution: {integrity: sha512-2Q+rw9vy1WFXu5cIxlvsabCwhU2qUwodGq03ODhLJ0jW4ek5BUtoCsnLB0qG+m8AHgEsSJcJGDSDe06FXlP74g==}
 
@@ -8430,6 +8442,8 @@ snapshots:
       '@types/send': 0.17.4
 
   '@types/symlink-or-copy@1.2.2': {}
+
+  '@types/tabulator-tables@6.2.6': {}
 
   '@typescript-eslint/eslint-plugin@8.29.1(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -13595,6 +13609,8 @@ snapshots:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
+
+  tabulator-tables@6.3.1: {}
 
   tailwindcss@4.1.3: {}
 

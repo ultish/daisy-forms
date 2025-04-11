@@ -1,9 +1,12 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes:
     light --default,
     dark;
 }
+
+@import "tabulator-tables/dist/css/tabulator.min.css";
 
 fieldset .validator-hint {
   visibility: hidden;

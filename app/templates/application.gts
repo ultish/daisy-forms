@@ -8,6 +8,7 @@ import FormFieldsetInputComponent from 'ember-6-3/components/forms/fields/fields
 import { on } from '@ember/modifier';
 import InputField from 'ember-6-3/components/forms/fields/input-field';
 import SelectField from 'ember-6-3/components/forms/fields/select-field';
+import DataTable from 'ember-6-3/components/data-table';
 
 class ApplicationRouteTemplate extends Component {
   get choices() {
@@ -59,6 +60,8 @@ class ApplicationRouteTemplate extends Component {
       <h2 id="title" class="inline-block">Welcome to Ember</h2>
     </header>
     <main class="w-full p-8">
+
+      <DataTable />
       <div class="skeleton h-32 w-32"></div>
 
       <h1>Form Component</h1>
