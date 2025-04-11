@@ -22,20 +22,10 @@ interface DataRow {
   phone?: string;
 }
 
-interface WorkerMessage {
-  data: DataRow[];
-  searchValue: string;
-}
-interface WorkerResponse {
-  filtered: DataRow[];
-  duration: number;
-}
-export default class DataTable extends Component {
+export default class DataTableBasic extends Component {
   @tracked searchValue = '';
   @tracked table: Tabulator | null = null;
-  worker: Worker;
 
-  // Sample dataset
   data: DataRow[] = Array.from({ length: 10000 }, (_, i) => ({
     id: i + 1,
     name: `User ${i}`,
@@ -55,19 +45,18 @@ export default class DataTable extends Component {
 
   constructor(owner: unknown, args: {}) {
     super(owner, args);
-    // No preprocessing needed
-    this.worker = new Worker('/workers/filter-worker.js');
+    // No Worker initialization
   }
 
   willDestroy() {
     super.willDestroy();
-    this.worker.terminate();
+    // No Worker to terminate
   }
 
   initTable = modifier((element: HTMLElement) => {
     this.table = new Tabulator(element, {
-      height: '400px', // Virtual DOM
-      renderVerticalBuffer: 100, // Buffer in pixels
+      height: '400px',
+      renderVerticalBuffer: 100,
       data: this.data,
       columns: [
         { title: 'ID', field: 'id', visible: false },
@@ -100,26 +89,35 @@ export default class DataTable extends Component {
 
   applyFilter() {
     if (!this.table) return;
+
     const startTotal = performance.now();
+
+    // Filter directly on main thread
+    const startFilter = performance.now();
     const searchValue = this.searchValue.toLowerCase();
-    const message: WorkerMessage = { data: this.data, searchValue };
-    this.worker.postMessage(message);
-    this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
-      // this.worker.onmessage = (event: MessageEvent<DataRow[]>) => {
-      const startRender = performance.now();
-      this.table!.setData(event.data.filtered);
-      const endRender = performance.now();
+    const filtered = searchValue
+      ? this.data.filter((row) =>
+          Object.values(row).some((value) =>
+            value != null
+              ? String(value).toLowerCase().includes(searchValue)
+              : false,
+          ),
+        )
+      : this.data;
+    const endFilter = performance.now();
 
-      const workerDuration = event.data.duration;
-      const transferAndRender = endRender - startRender;
-      const totalDuration = endRender - startTotal;
+    // Update table
+    const startRender = performance.now();
+    this.table.setData(filtered);
+    const endRender = performance.now();
 
-      console.log(`Worker Filtering: ${workerDuration.toFixed(2)}ms`);
-      console.log(
-        `Tabulator Transfer + Render: ${transferAndRender.toFixed(2)}ms`,
-      );
-      console.log(`Total Filter-to-Render: ${totalDuration.toFixed(2)}ms`);
-    };
+    const filterDuration = endFilter - startFilter;
+    const renderDuration = endRender - startRender;
+    const totalDuration = endRender - startTotal;
+
+    console.log(`Main Thread Filtering: ${filterDuration.toFixed(2)}ms`);
+    console.log(`Render: ${renderDuration.toFixed(2)}ms`);
+    console.log(`Total Filter-to-Render: ${totalDuration.toFixed(2)}ms`);
   }
 
   @action
