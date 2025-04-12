@@ -288,6 +288,18 @@ export default class Gql extends Component {
    * - do tabulator tables update?
    */
 
+  /**
+   * what happens here is:
+   * 1. query persons pets
+   * 2. flatten pets with objectscan
+   * 3. display on tabulator
+   * 4. update pet name via gql
+   * 5. subscribe to personUpdated is pushed down, updating caches. the pet is included so the pet cache gets udpated
+   * 6. as useQuery uses apollo's watchQuery, it reacts to apollo cache changes.
+   * 7. the apollo cache changes due to the subscription inlcuding the pet and it has IDs
+   * 8. the get personPetsFlat auto tracks and reacts which re-sets tabulator.setData
+   */
+
   <template>
     <style></style>
 
