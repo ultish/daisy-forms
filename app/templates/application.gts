@@ -10,6 +10,7 @@ import InputField from 'ember-6-3/components/forms/fields/input-field';
 import SelectField from 'ember-6-3/components/forms/fields/select-field';
 import DataTable from 'ember-6-3/components/data-table';
 import DataTableBasic from 'ember-6-3/components/data-table-basic';
+import Gql from 'ember-6-3/components/gql';
 
 class ApplicationRouteTemplate extends Component {
   get choices() {
@@ -61,6 +62,8 @@ class ApplicationRouteTemplate extends Component {
       <h2 id="title" class="inline-block">Welcome to Ember</h2>
     </header>
     <main class="w-full p-8">
+      <h1>Pets</h1>
+      <Gql />
 
       <DataTable />
 

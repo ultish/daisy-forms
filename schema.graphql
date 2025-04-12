@@ -1,0 +1,60 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+directive @extends on INTERFACE | OBJECT
+
+directive @external(reason: String) on FIELD_DEFINITION | OBJECT
+
+directive @key(fields: _FieldSet!, resolvable: Boolean = true) on INTERFACE | OBJECT
+
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @tag(name: String!) on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION
+
+type Mutation {
+  updatePerson(id: ID!, personName: String, petId: ID, petName: String): Person!
+}
+
+type Person {
+  age: Int!
+  id: ID!
+  name: String!
+  pets: [Pet!]!
+}
+
+type Pet {
+  id: ID!
+  name: String!
+  species: String!
+  toys: [Toy!]!
+}
+
+type Query {
+  _service: _Service!
+  people: [Person!]!
+  person(id: ID!): Person!
+}
+
+type Subscription {
+  countdown(from: Int!): Int!
+  personUpdated(id: ID!): Person!
+}
+
+type Toy {
+  id: ID!
+  name: String!
+  type: String!
+}
+
+scalar _Any
+
+scalar _FieldSet
+
+type _Service {
+  sdl: String
+}
