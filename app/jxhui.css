@@ -86,3 +86,51 @@ label.input:has(.too-many-choices.is-open) {
 .choices__item.choices__item--choice.choices__item--selectable {
   padding-left: 1rem;
 }
+.my-tabulator.tabulator {
+  @apply table  bg-base-100 rounded-box;
+}
+
+.my-tabulator .tabulator-header {
+  @apply bg-base-200 text-base-content font-bold;
+}
+.my-tabulator .tabulator-header .tabulator-col {
+  @apply bg-base-100;
+}
+
+.my-tabulator .tabulator-header .tabulator-col {
+  @apply border-b border-base-300 px-4 py-2;
+}
+
+.my-tabulator .tabulator-row {
+  @apply bg-base-100;
+}
+
+.my-tabulator .tabulator-cell {
+  @apply px-4 py-2 text-base-content;
+}
+
+.my-tabulator .tabulator-row:hover {
+  @apply bg-base-200/50;
+}
+
+/* Ensure header is sticky if needed */
+.my-tabulator .tabulator-header {
+  @apply sticky top-0 z-10;
+}
+
+/* Add to <style> or app.css */
+.my-tabulator.tabulator
+  .tabulator-header
+  .tabulator-col
+  .tabulator-sortable::after {
+  @apply text-base-content/50;
+}
+
+.my-tabulator.tabulator
+  .tabulator-header
+  .tabulator-col.tabulator-sorted-asc::after,
+.my-tabulator.tabulator
+  .tabulator-header
+  .tabulator-col.tabulator-sorted-desc::after {
+  @apply text-base-content;
+}

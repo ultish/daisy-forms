@@ -128,6 +128,7 @@ export default class DataTable extends Component {
   }
 
   <template>
+    <style></style>
     <label for="quick-filter">Quick Search:</label>
     <input
       type="text"
@@ -137,6 +138,6 @@ export default class DataTable extends Component {
       {{on "input" this.updateSearch}}
     />
     <button {{on "click" this.downloadCsv}}>Download CSV</button>
-    <div {{this.initTable}}></div>
+    <div class="my-tabulator" {{this.initTable}}></div>
   </template>
 }
