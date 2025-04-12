@@ -153,7 +153,7 @@ export default class Gql extends Component {
     if (!this.table) return;
     const startTotal = performance.now();
     const searchValue = this.searchValue.toLowerCase();
-    const message: WorkerMessage = { data: this.data, searchValue };
+    const message: WorkerMessage = { data: this.personPetsFlat, searchValue };
     this.worker.postMessage(message);
     this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
       // this.worker.onmessage = (event: MessageEvent<DataRow[]>) => {
